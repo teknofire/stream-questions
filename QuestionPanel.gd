@@ -26,7 +26,7 @@ func _on_gui_input(event):
 		drag = false
 		shown_location = global_position
 		Global.config.set_value("ui", name, global_position)
-		Global.config.save_settings()
+		Global.save_settings()
 
 func animate_in(_play_audio, message_length, duration):
 	show()

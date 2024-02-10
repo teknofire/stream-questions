@@ -3,6 +3,7 @@ extends Node
 var config: ConfigFile = ConfigFile.new()
 var config_file = "user://questions.cfg"
 var api_settings = ["enabled", "url", "key"]
+var ws_settings = ["port"]
 
 func _init():
 	load_settings()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dn78e74w0kavy"]
+[gd_scene load_steps=15 format=3 uid="uid://dn78e74w0kavy"]
 
 [ext_resource type="Theme" uid="uid://ctwjcw8ju5qb" path="res://theme.tres" id="1_00dw5"]
 [ext_resource type="Script" path="res://overlay.gd" id="1_v52i7"]
@@ -9,11 +9,26 @@
 [ext_resource type="Script" path="res://QuestionPanel.gd" id="6_oxpp8"]
 [ext_resource type="Script" path="res://MainMenu.gd" id="6_pynh5"]
 [ext_resource type="Texture2D" uid="uid://brkm5lybjd2i8" path="res://assets/teknofire-transparent-320-180.png" id="7_8rjuc"]
+[ext_resource type="Script" path="res://WebsocketAddress.gd" id="7_ow44g"]
+[ext_resource type="Script" path="res://port.gd" id="8_y0ofr"]
 [ext_resource type="Script" path="res://WebsocketServer.gd" id="10_vnfb5"]
 
 [sub_resource type="Theme" id="Theme_akjw7"]
 Label/constants/outline_size = 0
 Panel/styles/panel = ExtResource("4_teyok")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ye3gq"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.360784, 0.360784, 0.368627, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.266667)
+border_blend = true
 
 [node name="Overlay" type="Control"]
 layout_mode = 3
@@ -68,7 +83,6 @@ script = ExtResource("2_dt45c")
 
 [node name="MainMenu" type="Panel" parent="."]
 unique_name_in_owner = true
-visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 8
@@ -89,13 +103,11 @@ script = ExtResource("6_pynh5")
 [node name="Default" type="VBoxContainer" parent="MainMenu"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -209.5
-offset_right = 209.5
-offset_bottom = 93.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 50
 
 [node name="Title" type="Label" parent="MainMenu/Default"]
@@ -126,102 +138,140 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Quit"
 
-[node name="Settings" type="VBoxContainer" parent="MainMenu"]
+[node name="Teknofire-transparent-320-180" type="Sprite2D" parent="MainMenu/Default"]
+position = Vector2(41.5, 403)
+scale = Vector2(0.272222, 0.272222)
+texture = ExtResource("7_8rjuc")
+
+[node name="Copyright" type="Label" parent="MainMenu/Default"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 10
+text = "© 2024 TeknoFire"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Settings" type="MarginContainer" parent="MainMenu"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -250.0
-offset_right = 250.0
-offset_bottom = 337.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Settings"]
+layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Settings" type="Label" parent="MainMenu/Settings"]
+[node name="Settings" type="Label" parent="MainMenu/Settings/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Settings"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="MainMenu/Settings"]
+[node name="TabContainer" type="TabContainer" parent="MainMenu/Settings/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/side_margin = 0
+theme_override_constants/outline_size = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ye3gq")
+
+[node name="API" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 2
 
-[node name="Label4" type="Label" parent="MainMenu/Settings/GridContainer"]
+[node name="Label4" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Enabled	"
 horizontal_alignment = 2
 
-[node name="api_enabled" type="CheckButton" parent="MainMenu/Settings/GridContainer"]
+[node name="api_enabled" type="CheckButton" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Label3" type="Label" parent="MainMenu/Settings/GridContainer"]
+[node name="Label3" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
 layout_mode = 2
 text = "Api Url:"
 horizontal_alignment = 2
 
-[node name="api_url" type="LineEdit" parent="MainMenu/Settings/GridContainer"]
+[node name="api_url" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "https://questions.teknofire.net"
 
-[node name="Label2" type="Label" parent="MainMenu/Settings/GridContainer"]
+[node name="Label2" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
 layout_mode = 2
 text = "Api Key:	"
 horizontal_alignment = 2
 
-[node name="api_key" type="LineEdit" parent="MainMenu/Settings/GridContainer"]
+[node name="api_key" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 3
 secret = true
 
-[node name="ClearCache" type="Button" parent="MainMenu/Settings"]
+[node name="WebSocket" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+columns = 2
+
+[node name="PortLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Port"
+horizontal_alignment = 2
+
+[node name="port" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "9000"
+script = ExtResource("8_y0ofr")
+
+[node name="UrlLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket"]
+layout_mode = 2
+text = "WebSocket Url"
+horizontal_alignment = 2
+
+[node name="web_socket_url" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket"]
+layout_mode = 2
+placeholder_text = "ws://localhost:[PORT]/"
+editable = false
+script = ExtResource("7_ow44g")
+
+[node name="Cache" type="CenterContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ClearCache" type="Button" parent="MainMenu/Settings/VBoxContainer/TabContainer/Cache"]
+layout_mode = 2
 text = "Clear Audio Cache"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Settings"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Settings/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_vertical = 4
 
-[node name="Cancel" type="Button" parent="MainMenu/Settings/HBoxContainer"]
+[node name="Cancel" type="Button" parent="MainMenu/Settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="Save" type="Button" parent="MainMenu/Settings/HBoxContainer"]
+[node name="Save" type="Button" parent="MainMenu/Settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Save"
-
-[node name="Label" type="Label" parent="MainMenu"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 10
-text = "© 2024 TeknoFire"
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="Teknofire-transparent-320-180" type="Sprite2D" parent="MainMenu"]
-position = Vector2(43.0556, 401.5)
-scale = Vector2(0.272222, 0.272222)
-texture = ExtResource("7_8rjuc")
 
 [node name="Message" type="Label" parent="."]
 unique_name_in_owner = true
@@ -295,9 +345,12 @@ script = ExtResource("10_vnfb5")
 [connection signal="pressed" from="MainMenu/Default/VBoxContainer/Resume" to="MainMenu" method="_on_resume_pressed"]
 [connection signal="pressed" from="MainMenu/Default/VBoxContainer/Settings" to="MainMenu" method="_on_settings_pressed"]
 [connection signal="pressed" from="MainMenu/Default/VBoxContainer/Quit" to="MainMenu" method="_on_quit_pressed"]
-[connection signal="pressed" from="MainMenu/Settings/ClearCache" to="." method="_on_clear_cache_pressed"]
-[connection signal="pressed" from="MainMenu/Settings/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
-[connection signal="pressed" from="MainMenu/Settings/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
+[connection signal="focus_exited" from="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/port" to="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/port" method="_on_focus_exited"]
+[connection signal="text_changed" from="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/port" to="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/web_socket_url" method="_on_port_text_changed"]
+[connection signal="ws_port_changed" from="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/port" to="WebsocketServer" method="_on_port_ws_port_changed"]
+[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/TabContainer/Cache/ClearCache" to="." method="_on_clear_cache_pressed"]
+[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
+[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
 [connection signal="gui_input" from="QuestionPanel" to="QuestionPanel" method="_on_gui_input"]
 [connection signal="location_updated" from="QuestionPanel" to="." method="_on_location_updated"]
 [connection signal="panel_hidden" from="QuestionPanel" to="." method="_on_question_panel_hidden"]
