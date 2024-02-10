@@ -1,0 +1,305 @@
+[gd_scene load_steps=12 format=3 uid="uid://dn78e74w0kavy"]
+
+[ext_resource type="Theme" uid="uid://ctwjcw8ju5qb" path="res://theme.tres" id="1_00dw5"]
+[ext_resource type="Script" path="res://overlay.gd" id="1_v52i7"]
+[ext_resource type="Script" path="res://QueueSize.gd" id="2_dt45c"]
+[ext_resource type="Script" path="res://MarginContainer.gd" id="3_wejym"]
+[ext_resource type="Script" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="4_cy1bk"]
+[ext_resource type="StyleBox" uid="uid://ix27fttyj0a" path="res://themes/panel_stylebox.tres" id="4_teyok"]
+[ext_resource type="Script" path="res://QuestionPanel.gd" id="6_oxpp8"]
+[ext_resource type="Script" path="res://MainMenu.gd" id="6_pynh5"]
+[ext_resource type="Texture2D" uid="uid://brkm5lybjd2i8" path="res://assets/teknofire-transparent-320-180.png" id="7_8rjuc"]
+[ext_resource type="Script" path="res://WebsocketServer.gd" id="10_vnfb5"]
+
+[sub_resource type="Theme" id="Theme_akjw7"]
+Label/constants/outline_size = 0
+Panel/styles/panel = ExtResource("4_teyok")
+
+[node name="Overlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_00dw5")
+script = ExtResource("1_v52i7")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 0, 1)
+
+[node name="UpdateTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 10.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -65.0
+offset_right = 184.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 32)
+mouse_default_cursor_shape = 13
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("3_wejym")
+
+[node name="QueueSize" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 13
+theme_override_font_sizes/font_size = 40
+text = "Queue: 0"
+vertical_alignment = 2
+script = ExtResource("2_dt45c")
+
+[node name="MainMenu" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -370.5
+offset_top = -212.0
+offset_right = 370.5
+offset_bottom = 212.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_akjw7")
+theme_override_styles/panel = ExtResource("4_teyok")
+script = ExtResource("6_pynh5")
+
+[node name="Default" type="VBoxContainer" parent="MainMenu"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -209.5
+offset_right = 209.5
+offset_bottom = 93.0
+grow_horizontal = 2
+theme_override_constants/separation = 50
+
+[node name="Title" type="Label" parent="MainMenu/Default"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "Questions Queue"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Default"]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Resume" type="Button" parent="MainMenu/Default/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Resume"
+
+[node name="Settings" type="Button" parent="MainMenu/Default/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Settings"
+
+[node name="Quit" type="Button" parent="MainMenu/Default/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Quit"
+
+[node name="Settings" type="VBoxContainer" parent="MainMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 337.0
+grow_horizontal = 2
+theme_override_constants/separation = 50
+
+[node name="Settings" type="Label" parent="MainMenu/Settings"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="MainMenu/Settings"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="Label4" type="Label" parent="MainMenu/Settings/GridContainer"]
+layout_mode = 2
+text = "Enabled	"
+horizontal_alignment = 2
+
+[node name="api_enabled" type="CheckButton" parent="MainMenu/Settings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label3" type="Label" parent="MainMenu/Settings/GridContainer"]
+layout_mode = 2
+text = "Api Url:"
+horizontal_alignment = 2
+
+[node name="api_url" type="LineEdit" parent="MainMenu/Settings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "https://questions.teknofire.net"
+
+[node name="Label2" type="Label" parent="MainMenu/Settings/GridContainer"]
+layout_mode = 2
+text = "Api Key:	"
+horizontal_alignment = 2
+
+[node name="api_key" type="LineEdit" parent="MainMenu/Settings/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+
+[node name="ClearCache" type="Button" parent="MainMenu/Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Clear Audio Cache"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Settings"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Cancel" type="Button" parent="MainMenu/Settings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="Save" type="Button" parent="MainMenu/Settings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="Label" type="Label" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "© 2024 TeknoFire"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Teknofire-transparent-320-180" type="Sprite2D" parent="MainMenu"]
+position = Vector2(43.0556, 401.5)
+scale = Vector2(0.272222, 0.272222)
+texture = ExtResource("7_8rjuc")
+
+[node name="Message" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="HTTPManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_cy1bk")
+
+[node name="CenterCross" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(640, -8, 640, 736, -16, 736, -16, 360, 1296, 360)
+width = 1.0
+default_color = Color(1, 0, 0.172549, 1)
+
+[node name="QuestionPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -319.0
+offset_top = 435.0
+offset_right = 451.0
+offset_bottom = 538.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 6
+script = ExtResource("6_oxpp8")
+
+[node name="QuestionMessage" type="Label" parent="QuestionPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 6
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text_overrun_behavior = 3
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="OffscreenTarget" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(321, 795)
+
+[node name="WebsocketServer" type="Node" parent="."]
+script = ExtResource("10_vnfb5")
+
+[connection signal="timeout" from="UpdateTimer" to="." method="_on_timer_timeout"]
+[connection signal="gui_input" from="MarginContainer" to="MarginContainer" method="_on_gui_input"]
+[connection signal="gui_input" from="MarginContainer/QueueSize" to="MarginContainer/QueueSize" method="_on_gui_input"]
+[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Resume" to="MainMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Settings" to="MainMenu" method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Quit" to="MainMenu" method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/Settings/ClearCache" to="." method="_on_clear_cache_pressed"]
+[connection signal="pressed" from="MainMenu/Settings/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
+[connection signal="pressed" from="MainMenu/Settings/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
+[connection signal="gui_input" from="QuestionPanel" to="QuestionPanel" method="_on_gui_input"]
+[connection signal="location_updated" from="QuestionPanel" to="." method="_on_location_updated"]
+[connection signal="panel_hidden" from="QuestionPanel" to="." method="_on_question_panel_hidden"]
+[connection signal="next" from="WebsocketServer" to="." method="_on_play_question_clicked"]
+[connection signal="replay" from="WebsocketServer" to="." method="_on_replay_question_clicked"]
