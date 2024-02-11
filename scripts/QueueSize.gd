@@ -6,3 +6,4 @@ func update_counts(current, count):
 	if text != newtext:
 		text = newtext
 		get_parent().animate()
+

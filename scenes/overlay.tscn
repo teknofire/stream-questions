@@ -1,17 +1,17 @@
 [gd_scene load_steps=15 format=3 uid="uid://dn78e74w0kavy"]
 
-[ext_resource type="Theme" uid="uid://ctwjcw8ju5qb" path="res://theme.tres" id="1_00dw5"]
-[ext_resource type="Script" path="res://overlay.gd" id="1_v52i7"]
-[ext_resource type="Script" path="res://QueueSize.gd" id="2_dt45c"]
-[ext_resource type="Script" path="res://MarginContainer.gd" id="3_wejym"]
+[ext_resource type="Theme" uid="uid://ctwjcw8ju5qb" path="res://themes/theme.tres" id="1_00dw5"]
+[ext_resource type="Script" path="res://scripts/overlay.gd" id="1_v52i7"]
+[ext_resource type="Script" path="res://scripts/QueueSize.gd" id="2_dt45c"]
+[ext_resource type="Script" path="res://scripts/QueueSizeContainer.gd" id="3_wejym"]
 [ext_resource type="Script" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="4_cy1bk"]
 [ext_resource type="StyleBox" uid="uid://ix27fttyj0a" path="res://themes/panel_stylebox.tres" id="4_teyok"]
-[ext_resource type="Script" path="res://QuestionPanel.gd" id="6_oxpp8"]
-[ext_resource type="Script" path="res://MainMenu.gd" id="6_pynh5"]
+[ext_resource type="Script" path="res://scripts/QuestionPanel.gd" id="6_oxpp8"]
+[ext_resource type="Script" path="res://scripts/MainMenu.gd" id="6_pynh5"]
 [ext_resource type="Texture2D" uid="uid://brkm5lybjd2i8" path="res://assets/teknofire-transparent-320-180.png" id="7_8rjuc"]
-[ext_resource type="Script" path="res://WebsocketAddress.gd" id="7_ow44g"]
-[ext_resource type="Script" path="res://port.gd" id="8_y0ofr"]
-[ext_resource type="Script" path="res://WebsocketServer.gd" id="10_vnfb5"]
+[ext_resource type="Script" path="res://scripts/WebsocketAddress.gd" id="7_ow44g"]
+[ext_resource type="Script" path="res://scripts/port.gd" id="8_y0ofr"]
+[ext_resource type="Script" path="res://scripts/WebsocketServer.gd" id="10_vnfb5"]
 
 [sub_resource type="Theme" id="Theme_akjw7"]
 Label/constants/outline_size = 0
@@ -55,7 +55,7 @@ color = Color(0, 1, 0, 1)
 unique_name_in_owner = true
 wait_time = 10.0
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="QueueSizeContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -71,7 +71,7 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("3_wejym")
 
-[node name="QueueSize" type="Label" parent="MarginContainer"]
+[node name="QueueSize" type="Label" parent="QueueSizeContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
@@ -340,8 +340,8 @@ position = Vector2(321, 795)
 script = ExtResource("10_vnfb5")
 
 [connection signal="timeout" from="UpdateTimer" to="." method="_on_timer_timeout"]
-[connection signal="gui_input" from="MarginContainer" to="MarginContainer" method="_on_gui_input"]
-[connection signal="gui_input" from="MarginContainer/QueueSize" to="MarginContainer/QueueSize" method="_on_gui_input"]
+[connection signal="gui_input" from="QueueSizeContainer" to="QueueSizeContainer" method="_on_gui_input"]
+[connection signal="gui_input" from="QueueSizeContainer/QueueSize" to="QueueSizeContainer/QueueSize" method="_on_gui_input"]
 [connection signal="pressed" from="MainMenu/Default/VBoxContainer/Resume" to="MainMenu" method="_on_resume_pressed"]
 [connection signal="pressed" from="MainMenu/Default/VBoxContainer/Settings" to="MainMenu" method="_on_settings_pressed"]
 [connection signal="pressed" from="MainMenu/Default/VBoxContainer/Quit" to="MainMenu" method="_on_quit_pressed"]

@@ -3,6 +3,11 @@ extends MarginContainer
 var drag = false
 var offset = Vector2.ZERO
 
+func _ready():
+	var pos = Global.config.get_value("ui", name)
+	if pos:
+		global_position = pos
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if drag:
@@ -22,5 +27,8 @@ func _on_gui_input(event):
 			drag = true
 			offset = global_position - get_viewport().get_mouse_position()
 	else:
-		drag = false
+		if drag:
+			drag = false
+			Global.config.set_value("ui", name, global_position)
+			Global.save_settings()
 
