@@ -23,10 +23,11 @@ func _on_gui_input(event):
 			drag = true
 			offset = global_position - get_viewport().get_mouse_position()
 	else:
-		drag = false
-		shown_location = global_position
-		Global.config.set_value("ui", name, global_position)
-		Global.save_settings()
+		if drag == true:
+			drag = false
+			shown_location = global_position
+			Global.config.set_value("ui", name, global_position)
+			Global.save_settings()
 
 func animate_in(_play_audio, message_length, duration):
 	show()
