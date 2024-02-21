@@ -26,7 +26,7 @@ func log_message(message):
 func _handle_button_press(id, event):
 	if event == "keyUp":
 		print("Recieved %s with %s" % [event, id])
-		match id:
+		match id.to_lower():
 			"next":
 				next.emit()
 			"replay":

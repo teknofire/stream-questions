@@ -1,12 +1,38 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ctwjcw8ju5qb"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://ctwjcw8ju5qb"]
 
+[ext_resource type="FontFile" uid="uid://o5rp0fo4qew0" path="res://themes/FrancoisOne-Regular.ttf" id="1_m3btr"]
 [ext_resource type="StyleBox" uid="uid://ix27fttyj0a" path="res://themes/panel_stylebox.tres" id="1_qsx3m"]
 
-[sub_resource type="SystemFont" id="SystemFont_k3l0e"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_li1xu"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.733333, 0.733333, 0.733333, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_re700"]
+bg_color = Color(0.152941, 0.152941, 0.152941, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.454902, 0.454902, 0.454902, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [resource]
+Button/styles/hover = SubResource("StyleBoxFlat_li1xu")
+Button/styles/normal = SubResource("StyleBoxFlat_re700")
 Label/colors/font_color = Color(1, 1, 1, 1)
-Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/constants/outline_size = 30
-Label/fonts/font = SubResource("SystemFont_k3l0e")
+Label/colors/font_outline_color = Color(0, 0, 0, 0.74902)
+Label/constants/outline_size = 20
+Label/fonts/font = ExtResource("1_m3btr")
 Panel/styles/panel = ExtResource("1_qsx3m")
