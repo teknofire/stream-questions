@@ -24,33 +24,40 @@ func _on_quit_pressed():
 
 func _on_settings_pressed():
 	for item in Global.api_settings:
-		_set_input_value(item, Global.config.get_value("api", item))
+		_set_input_value("%api_"+item, Global.config.get_value("api", item))
 		
+	var panel_size = Global.config.get_value("ui", "QuestionPanel_size", Vector2(600, 100))
+	_set_input_value("%ui_question_width", panel_size.x)	
+	_set_input_value("%ui_question_height", panel_size.y)	
+	
 	%Default.hide()
 	%Settings.show()
 
 
 func _on_save_pressed():
 	for item in Global.api_settings:
-		Global.config.set_value("api", item, _get_input_value(item))
-		
+		Global.config.set_value("api", item, _get_input_value("%api_"+item))
+
+	Global.config.set_value("ui", "QuestionPanel_size", %QuestionPanel.size)
+			
 	Global.save_settings()
 	
 	_show_menu()
 
 
+
 func _set_input_value(input, value):
-	var field = get_node("%%api_%s" % input)
+	var field = get_node(input)
 	
 	match field.get_class():
 		"LineEdit":
-			field.text = value
+			field.text = "%s" % value
 		"CheckButton":
 			field.button_pressed = value
 
 
 func _get_input_value(input):
-	var node_name = "%%api_%s" % input
+	var node_name = input
 	var field = get_node(node_name)
 	
 	if !field:
