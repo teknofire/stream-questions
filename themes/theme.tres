@@ -33,6 +33,7 @@ Button/styles/hover = SubResource("StyleBoxFlat_li1xu")
 Button/styles/normal = SubResource("StyleBoxFlat_re700")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/line_spacing = -2
 Label/constants/outline_size = 20
 Label/fonts/font = ExtResource("1_m3btr")
 Panel/styles/panel = ExtResource("1_qsx3m")

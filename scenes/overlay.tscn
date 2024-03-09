@@ -183,7 +183,6 @@ theme_override_constants/outline_size = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ye3gq")
 
 [node name="API" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
-visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -225,6 +224,7 @@ size_flags_horizontal = 3
 secret = true
 
 [node name="WebSocket" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 theme_override_constants/h_separation = 10
@@ -256,6 +256,7 @@ editable = false
 script = ExtResource("7_ow44g")
 
 [node name="Messages" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 theme_override_constants/h_separation = 10
@@ -338,10 +339,9 @@ unique_name_in_owner = true
 script = ExtResource("4_cy1bk")
 
 [node name="CenterCross" type="Line2D" parent="."]
-visible = false
 points = PackedVector2Array(640, -8, 640, 736, -16, 736, -16, 360, 1296, 360)
 width = 1.0
-default_color = Color(1, 0, 0.172549, 1)
+default_color = Color(0.2, 1, 0, 0.796078)
 
 [node name="QuestionPanel" type="Panel" parent="."]
 unique_name_in_owner = true
