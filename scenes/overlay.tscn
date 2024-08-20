@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dn78e74w0kavy"]
+[gd_scene load_steps=16 format=3 uid="uid://dn78e74w0kavy"]
 
 [ext_resource type="Theme" uid="uid://ctwjcw8ju5qb" path="res://themes/theme.tres" id="1_00dw5"]
 [ext_resource type="Script" path="res://scripts/overlay.gd" id="1_v52i7"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/WebsocketAddress.gd" id="7_ow44g"]
 [ext_resource type="Script" path="res://scripts/port.gd" id="8_y0ofr"]
 [ext_resource type="Script" path="res://scripts/WebsocketServer.gd" id="10_vnfb5"]
+[ext_resource type="Script" path="res://scenes/scroll.gd" id="12_uqs1p"]
 
 [sub_resource type="Theme" id="Theme_akjw7"]
 Label/constants/outline_size = 0
@@ -43,13 +44,14 @@ theme = ExtResource("1_00dw5")
 script = ExtResource("1_v52i7")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 1, 0, 1)
+color = Color(1, 1, 1, 0)
 
 [node name="UpdateTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -139,7 +141,7 @@ size_flags_vertical = 3
 text = "Quit"
 
 [node name="Teknofire-transparent-320-180" type="Sprite2D" parent="MainMenu/Default"]
-position = Vector2(41.5, 403)
+position = Vector2(39.5, 399)
 scale = Vector2(0.272222, 0.272222)
 texture = ExtResource("7_8rjuc")
 
@@ -178,9 +180,10 @@ horizontal_alignment = 1
 [node name="TabContainer" type="TabContainer" parent="MainMenu/Settings/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/side_margin = 0
 theme_override_constants/outline_size = 0
+theme_override_constants/side_margin = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ye3gq")
+current_tab = 0
 
 [node name="API" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
 custom_minimum_size = Vector2(500, 0)
@@ -189,6 +192,7 @@ size_flags_horizontal = 4
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
+metadata/_tab_index = 0
 
 [node name="Label4" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
 custom_minimum_size = Vector2(100, 0)
@@ -230,6 +234,7 @@ layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
+metadata/_tab_index = 1
 
 [node name="PortLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket"]
 custom_minimum_size = Vector2(100, 0)
@@ -262,6 +267,7 @@ layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
+metadata/_tab_index = 2
 
 [node name="WidthLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages"]
 custom_minimum_size = Vector2(100, 0)
@@ -301,6 +307,7 @@ theme_override_constants/margin_left = 150
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 150
 theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 3
 
 [node name="ClearCache" type="Button" parent="MainMenu/Settings/VBoxContainer/TabContainer/Cache"]
 layout_mode = 2
@@ -341,7 +348,7 @@ script = ExtResource("4_cy1bk")
 [node name="CenterCross" type="Line2D" parent="."]
 points = PackedVector2Array(640, -8, 640, 736, -16, 736, -16, 360, 1296, 360)
 width = 1.0
-default_color = Color(0.2, 1, 0, 0.796078)
+default_color = Color(0.2, 0.847059, 0, 0.513726)
 
 [node name="QuestionPanel" type="Panel" parent="."]
 unique_name_in_owner = true
@@ -362,7 +369,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 6
 script = ExtResource("6_oxpp8")
 
-[node name="QuestionMessage" type="Label" parent="QuestionPanel"]
+[node name="scroll" type="ScrollContainer" parent="QuestionPanel"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -370,12 +377,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("12_uqs1p")
+
+[node name="QuestionMessage" type="Label" parent="QuestionPanel/scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 mouse_filter = 1
 mouse_default_cursor_shape = 6
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 18
 autowrap_mode = 3
-text_overrun_behavior = 3
 visible_characters = 0
 visible_ratio = 0.0
 

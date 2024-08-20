@@ -38,7 +38,7 @@ func animate_in(_play_audio, message_length, duration):
 	var tween = get_tree().create_tween()
 	show_panel(tween)
 	tween.tween_callback(_play_audio)
-	tween.tween_property(%QuestionMessage, "visible_characters", message_length, duration).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(%QuestionMessage, "visible_characters", message_length, duration).set_trans(Tween.TRANS_LINEAR)
 	animate_out(tween).set_delay(3)
 	tween.tween_callback(hide_panel)
 	

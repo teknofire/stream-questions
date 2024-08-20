@@ -6,6 +6,7 @@ var playing_question = false
 var playing_replay = false
 
 func _ready():
+	get_tree().get_root().set_transparent_background(true)
 	QuestionApi.setup(%HTTPManager)
 	QuestionApi.stats_updated.connect(%QueueSize.update_counts)
 	

@@ -31,4 +31,3 @@ func _on_gui_input(event):
 			drag = false
 			Global.config.set_value("ui", name, global_position)
 			Global.save_settings()
-
