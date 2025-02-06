@@ -87,9 +87,9 @@ class QuestionApiClient:
 		
 	###################
 
-	func play_question(stats, callback: Callable) -> bool:
-		if stats.has("question"):
-			_fetch_audio(stats["question"], callback)
+	func play_question(mstats, callback: Callable) -> bool:
+		if mstats.has("question"):
+			_fetch_audio(mstats["question"], callback)
 			return true 
 		
 		return false

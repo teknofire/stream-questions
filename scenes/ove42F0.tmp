@@ -343,6 +343,7 @@ text = "Save"
 
 [node name="Timer" type="MarginContainer" parent="MainMenu" groups=["SettingPanels"]]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -422,19 +423,10 @@ text = "Volume"
 [node name="VolumeSlider" type="HSlider" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
 max_value = 24.0
-rounded = true
 
 [node name="Instructions" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "
-Availble Websocket Commands
-
-* timer.start   - Start the timer
-* timer.stop    - Stop the timer
-* timer.reset   - Reset the timer
-* timer.toggle - Show/Hide timer,  the timer keeps running if it was started"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Timer/VBoxContainer"]
 layout_mode = 2

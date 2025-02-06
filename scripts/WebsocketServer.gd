@@ -8,6 +8,7 @@ var socket := WebSocketPeer.new()
 signal next
 signal replay
 signal clear_cache
+signal timer(command: String)
 
 func _ready():
 	start_ws()
@@ -33,6 +34,16 @@ func _handle_button_press(id, event):
 				replay.emit()
 			"clear_cache":
 				clear_cache.emit()
+			"timer.start":
+				timer.emit('start')
+			"timer.stop":
+				timer.emit('stop')
+			"timer.reset":
+				timer.emit('reset')
+			"timer.toggle":
+				timer.emit('toggle')
+			"timer.complete":
+				timer.emit('complete')
 
 
 func _process(_delta):

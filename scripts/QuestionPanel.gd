@@ -4,7 +4,7 @@ var drag = false
 var offset = Vector2.ZERO
 var on_screen = false
 
-signal location_updated(name: String, location: Vector2)
+#signal location_updated(name: String, location: Vector2)
 signal panel_hidden
 
 var shown_location = Vector2.ZERO
@@ -18,11 +18,11 @@ func _resize_panel():
 	size = Global.config.get_value("ui", "QuestionPanel_size", Vector2(600,50))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if drag:
 		global_position = get_viewport().get_mouse_position() + offset
 
-func _on_gui_input(event):
+func _on_gui_input(_event):
 	if Input.is_action_pressed("click"):
 		if !drag:
 			drag = true

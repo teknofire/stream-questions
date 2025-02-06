@@ -10,6 +10,9 @@ func _ready():
 	QuestionApi.setup(%HTTPManager)
 	QuestionApi.stats_updated.connect(%QueueSize.update_counts)
 	
+	Global.dragging.connect(show_cross)
+	Global.dropped.connect(hide_cross)
+	
 	%UpdateTimer.start()
 	update_queue_count()
 
@@ -38,12 +41,18 @@ func _on_question_failed():
 	playing_replay = false
 	if !$AudioStreamPlayer2D.is_playing():
 		play_error_count += 1
-		if (play_error_count % 5) == 0:
+		if (play_error_count % 2) == 0:
 			$AudioStreamPlayer2D.stream = preload("res://assets/sad_trombone.wav")
 		else:
 			$AudioStreamPlayer2D.stream = preload("res://assets/Error.wav")
 		$AudioStreamPlayer2D.play()
 
+
+func show_cross() -> void:
+	%CenterCross.show()
+	
+func hide_cross() -> void:
+	%CenterCross.hide()
 
 func _on_question_fetched(question, audiofile):
 	playing_question = true 
@@ -74,3 +83,19 @@ func _on_question_panel_hidden():
 
 func _on_clear_cache_pressed():
 	QuestionApi.clear_cache()
+
+func _on_websocket_server_timer(command: String) -> void:
+	match command:
+		"start":
+			%CountdownTimer.start_timer()
+		"stop":
+			%CountdownTimer.stop_timer()
+		"reset":
+			%CountdownTimer.reset_timer()
+		"complete":
+			%CountdownTimer.complete_timer()
+		"toggle":
+			if %CountdownTimer.visible:
+				%CountdownTimer.hide_with_zoom()
+			else:
+				%CountdownTimer.show_with_zoom()
