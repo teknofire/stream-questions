@@ -26,8 +26,15 @@ This is a quick godot project to create an OBS Overlay for the Questions queue.
 
 ## WebSocket Actions
 
-* `next` - Plays the next question
-* `replay` - Replays the last question played, if no question has been played since the application was started won't do anything.
+* Question handling
+	* `next` - Plays the next question
+	* `replay` - Replays the last question played, if no question has been played since the application was started won't do anything.
+* Timer handling
+	* `timer.start` - Start the timer, if hidden timer will be shown.
+	* `timer.stop` - Stop the timer, if the timer completion has been activated it will also stop that.
+	* `timer.reset` - Stop the timer and reset to the default duration
+	* `timer.toggle` - Toggle display of timer
+	* `timer.complete` - **DEBUG/TESTING** Triggers the immediate completion of the timer 
 
 ## Authors
 
