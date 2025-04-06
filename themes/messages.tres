@@ -1,0 +1,16 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dp1br5li0gvy8"]
+
+[ext_resource type="FontFile" uid="uid://i2q0f2n12ja8" path="res://assets/fonnts.com-Eigerdals_Heavy.otf" id="1_1yrl4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ob8ej"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1yrl4"]
+
+[resource]
+default_font = ExtResource("1_1yrl4")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 20
+Label/font_sizes/font_size = 25
+Label/fonts/font = ExtResource("1_1yrl4")
+Panel/styles/panel = SubResource("StyleBoxEmpty_ob8ej")
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_1yrl4")

@@ -1,4 +1,4 @@
-extends Panel
+extends PanelContainer
 
 func _ready():
 	switch_panel(%Default)
@@ -20,7 +20,6 @@ func _show_menu():
 func _input(event):
 	if event.is_action_pressed("menu"):
 		toggle_menu()
-
 
 func _on_quit_pressed():
 	get_tree().quit()

@@ -13,10 +13,10 @@ config_version=5
 config/name="StreamQuestions"
 config/version="1.0"
 run/main_scene="res://scenes/overlay.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.156863, 0.192157, 0.227451, 1)
-boot_splash/image="res://assets/teknofire-transparent-1280x720.png"
 boot_splash/fullsize=false
+boot_splash/image="res://assets/teknofire-transparent-1280x720.png"
 config/icon="res://icon.svg"
 
 [autoload]

@@ -1,19 +1,20 @@
-[gd_scene load_steps=17 format=3 uid="uid://dn78e74w0kavy"]
+[gd_scene load_steps=18 format=3 uid="uid://dn78e74w0kavy"]
 
 [ext_resource type="Theme" uid="uid://ctwjcw8ju5qb" path="res://themes/theme.tres" id="1_00dw5"]
-[ext_resource type="Script" path="res://scripts/overlay.gd" id="1_v52i7"]
-[ext_resource type="Script" path="res://scripts/QueueSize.gd" id="2_dt45c"]
-[ext_resource type="Script" path="res://scripts/QueueSizeContainer.gd" id="3_wejym"]
-[ext_resource type="Script" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="4_cy1bk"]
+[ext_resource type="Script" uid="uid://btaqnfxxirmpw" path="res://scripts/overlay.gd" id="1_v52i7"]
+[ext_resource type="Script" uid="uid://enn7ppt42a3e" path="res://scripts/QueueSize.gd" id="2_dt45c"]
+[ext_resource type="Script" uid="uid://3vytehl32qgj" path="res://scripts/QueueSizeContainer.gd" id="3_wejym"]
+[ext_resource type="Script" uid="uid://j2uexoiv36lq" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="4_cy1bk"]
 [ext_resource type="StyleBox" uid="uid://ix27fttyj0a" path="res://themes/panel_stylebox.tres" id="4_teyok"]
-[ext_resource type="Script" path="res://scripts/QuestionPanel.gd" id="6_oxpp8"]
-[ext_resource type="Script" path="res://scripts/MainMenu.gd" id="6_pynh5"]
+[ext_resource type="Theme" uid="uid://dp1br5li0gvy8" path="res://themes/messages.tres" id="4_ubex6"]
+[ext_resource type="Script" uid="uid://cqq50iapno3dr" path="res://scripts/QuestionPanel.gd" id="6_oxpp8"]
+[ext_resource type="Script" uid="uid://46iqoxfdd1r6" path="res://scripts/MainMenu.gd" id="6_pynh5"]
 [ext_resource type="Texture2D" uid="uid://brkm5lybjd2i8" path="res://assets/teknofire-transparent-320-180.png" id="7_8rjuc"]
-[ext_resource type="Script" path="res://scripts/WebsocketAddress.gd" id="7_ow44g"]
+[ext_resource type="Script" uid="uid://dcfouse87q44k" path="res://scripts/WebsocketAddress.gd" id="7_ow44g"]
 [ext_resource type="Theme" uid="uid://cqsmkdhjpvasy" path="res://themes/setting_theme.tres" id="8_ddbyb"]
-[ext_resource type="Script" path="res://scripts/port.gd" id="8_y0ofr"]
-[ext_resource type="Script" path="res://scripts/WebsocketServer.gd" id="10_vnfb5"]
-[ext_resource type="Script" path="res://scenes/scroll.gd" id="12_uqs1p"]
+[ext_resource type="Script" uid="uid://dawqcxh3d2bgx" path="res://scripts/port.gd" id="8_y0ofr"]
+[ext_resource type="Script" uid="uid://b7a4s7gv0jdr5" path="res://scripts/WebsocketServer.gd" id="10_vnfb5"]
+[ext_resource type="Script" uid="uid://cp4sq4h1ovdwt" path="res://scenes/scroll.gd" id="12_uqs1p"]
 [ext_resource type="PackedScene" uid="uid://burgngsb5ep1w" path="res://scenes/countdown_timer.tscn" id="15_8vdif"]
 
 [sub_resource type="Theme" id="Theme_akjw7"]
@@ -60,6 +61,7 @@ offset_right = 184.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 32)
 mouse_default_cursor_shape = 13
+theme = ExtResource("4_ubex6")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
@@ -76,7 +78,7 @@ text = "Queue: 0"
 vertical_alignment = 2
 script = ExtResource("2_dt45c")
 
-[node name="MainMenu" type="Panel" parent="."]
+[node name="MainMenu" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 z_index = 5
 layout_mode = 1
@@ -85,65 +87,66 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -370.5
-offset_top = -212.0
-offset_right = 370.5
-offset_bottom = 212.0
+offset_left = -419.5
+offset_top = -234.5
+offset_right = 419.5
+offset_bottom = 234.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_akjw7")
 theme_override_styles/panel = ExtResource("4_teyok")
 script = ExtResource("6_pynh5")
 
-[node name="Default" type="VBoxContainer" parent="MainMenu" groups=["SettingPanels"]]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Default" type="VBoxContainer" parent="MainMenu/MarginContainer" groups=["SettingPanels"]]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Title" type="Label" parent="MainMenu/Default"]
+[node name="Title" type="Label" parent="MainMenu/MarginContainer/Default"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 50
 text = "Questions Queue"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Default"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer/Default"]
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="Resume" type="Button" parent="MainMenu/Default/VBoxContainer"]
+[node name="Resume" type="Button" parent="MainMenu/MarginContainer/Default/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Resume"
 
-[node name="Settings" type="Button" parent="MainMenu/Default/VBoxContainer"]
+[node name="Settings" type="Button" parent="MainMenu/MarginContainer/Default/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Settings"
 
-[node name="Timer" type="Button" parent="MainMenu/Default/VBoxContainer"]
+[node name="Timer" type="Button" parent="MainMenu/MarginContainer/Default/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Timer"
 
-[node name="Quit" type="Button" parent="MainMenu/Default/VBoxContainer"]
+[node name="Quit" type="Button" parent="MainMenu/MarginContainer/Default/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Quit"
 
-[node name="Teknofire-transparent-320-180" type="Sprite2D" parent="MainMenu/Default"]
-position = Vector2(39.5, 399)
+[node name="Teknofire-transparent-320-180" type="Sprite2D" parent="MainMenu/MarginContainer/Default"]
+position = Vector2(39.5, 437)
 scale = Vector2(0.272222, 0.272222)
 texture = ExtResource("7_8rjuc")
 
-[node name="Copyright" type="Label" parent="MainMenu/Default"]
+[node name="Copyright" type="Label" parent="MainMenu/MarginContainer/Default"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -152,31 +155,19 @@ text = "© 2024 TeknoFire"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="Settings" type="MarginContainer" parent="MainMenu" groups=["SettingPanels"]]
+[node name="Settings" type="VBoxContainer" parent="MainMenu/MarginContainer" groups=["SettingPanels"]]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("8_ddbyb")
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Settings"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Settings" type="Label" parent="MainMenu/Settings/VBoxContainer"]
+[node name="Settings" type="Label" parent="MainMenu/MarginContainer/Settings"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Settings"
 horizontal_alignment = 1
 
-[node name="TabContainer" type="TabContainer" parent="MainMenu/Settings/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="MainMenu/MarginContainer/Settings"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("8_ddbyb")
@@ -184,7 +175,7 @@ theme_override_constants/outline_size = 0
 theme_override_constants/side_margin = 0
 current_tab = 1
 
-[node name="API" type="MarginContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+[node name="API" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -194,80 +185,80 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 0
 
-[node name="APIGrid" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer/API"]
+[node name="APIGrid" type="GridContainer" parent="MainMenu/MarginContainer/Settings/TabContainer/API"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 2
 
-[node name="Label4" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API/APIGrid"]
+[node name="Label4" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/API/APIGrid"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Enabled	"
 horizontal_alignment = 2
 
-[node name="api_enabled" type="CheckButton" parent="MainMenu/Settings/VBoxContainer/TabContainer/API/APIGrid"]
+[node name="api_enabled" type="CheckButton" parent="MainMenu/MarginContainer/Settings/TabContainer/API/APIGrid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Label3" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API/APIGrid"]
+[node name="Label3" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/API/APIGrid"]
 layout_mode = 2
 text = "Api Url:"
 horizontal_alignment = 2
 
-[node name="api_url" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/API/APIGrid"]
+[node name="api_url" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/API/APIGrid"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "https://questions.teknofire.net"
 
-[node name="Label2" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/API/APIGrid"]
+[node name="Label2" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/API/APIGrid"]
 layout_mode = 2
 text = "Api Key:	"
 horizontal_alignment = 2
 
-[node name="api_key" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/API/APIGrid"]
+[node name="api_key" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/API/APIGrid"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 3
 secret = true
 
-[node name="WebSocket" type="MarginContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+[node name="WebSocket" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="GridContainer" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket"]
+[node name="GridContainer" type="GridContainer" parent="MainMenu/MarginContainer/Settings/TabContainer/WebSocket"]
 layout_mode = 2
 columns = 2
 
-[node name="PortLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer"]
+[node name="PortLabel" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Port"
 horizontal_alignment = 2
 
-[node name="port" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer"]
+[node name="port" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "9000"
 script = ExtResource("8_y0ofr")
 
-[node name="UrlLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer"]
+[node name="UrlLabel" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer"]
 layout_mode = 2
 text = "WebSocket Url"
 horizontal_alignment = 2
 
-[node name="web_socket_url" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer"]
+[node name="web_socket_url" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer"]
 layout_mode = 2
 placeholder_text = "ws://localhost:[PORT]/"
 editable = false
 script = ExtResource("7_ow44g")
 
-[node name="Messages" type="MarginContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+[node name="Messages" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
 visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
@@ -276,44 +267,44 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 2
 
-[node name="GridContainer" type="GridContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages"]
+[node name="GridContainer" type="GridContainer" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
 
-[node name="WidthLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer"]
+[node name="WidthLabel" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Width"
 horizontal_alignment = 2
 
-[node name="ui_question_width" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer"]
+[node name="ui_question_width" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="HeightLabel" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer"]
+[node name="HeightLabel" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer"]
 layout_mode = 2
 text = "Height"
 horizontal_alignment = 2
 
-[node name="ui_question_height" type="LineEdit" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer"]
+[node name="ui_question_height" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer"]
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer"]
 layout_mode = 2
 
-[node name="ShowPanel" type="Button" parent="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer"]
+[node name="ShowPanel" type="Button" parent="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 text = "Toggle Question Panel"
 
-[node name="Cache" type="MarginContainer" parent="MainMenu/Settings/VBoxContainer/TabContainer"]
+[node name="Cache" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 150
@@ -322,111 +313,100 @@ theme_override_constants/margin_right = 150
 theme_override_constants/margin_bottom = 50
 metadata/_tab_index = 3
 
-[node name="ClearCache" type="Button" parent="MainMenu/Settings/VBoxContainer/TabContainer/Cache"]
+[node name="ClearCache" type="Button" parent="MainMenu/MarginContainer/Settings/TabContainer/Cache"]
 layout_mode = 2
 theme_override_constants/outline_size = 0
 text = "Clear Audio Cache"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Settings/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/Settings"]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Cancel" type="Button" parent="MainMenu/Settings/VBoxContainer/HBoxContainer"]
+[node name="Cancel" type="Button" parent="MainMenu/MarginContainer/Settings/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="Save" type="Button" parent="MainMenu/Settings/VBoxContainer/HBoxContainer"]
+[node name="Save" type="Button" parent="MainMenu/MarginContainer/Settings/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Save"
 
-[node name="Timer" type="MarginContainer" parent="MainMenu" groups=["SettingPanels"]]
+[node name="Timer" type="VBoxContainer" parent="MainMenu/MarginContainer" groups=["SettingPanels"]]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("8_ddbyb")
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Timer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="MainMenu/Timer/VBoxContainer"]
+[node name="Title" type="Label" parent="MainMenu/MarginContainer/Timer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Timer
 "
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="MainMenu/Timer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MainMenu/MarginContainer/Timer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu/Timer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/MarginContainer/Timer/PanelContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Name
 "
 horizontal_alignment = 2
 
-[node name="TimerTitle" type="LineEdit" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="TimerTitle" type="LineEdit" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Default Timer"
 
-[node name="Label2" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Label2" type="Label" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Duration"
 horizontal_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Hours" type="SpinBox" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="Hours" type="SpinBox" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="H" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="H" type="Label" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
 text = "H"
 
-[node name="Minutes" type="SpinBox" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="Minutes" type="SpinBox" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="M" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="M" type="Label" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
 text = "M"
 
-[node name="VolumeLabel" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VolumeLabel" type="Label" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Volume"
 
-[node name="VolumeSlider" type="HSlider" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VolumeSlider" type="HSlider" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 max_value = 24.0
 rounded = true
 
-[node name="Instructions" type="Label" parent="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Instructions" type="Label" parent="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "
 Availble Websocket Commands
@@ -436,16 +416,16 @@ Availble Websocket Commands
 * timer.reset   - Reset the timer
 * timer.toggle - Show/Hide timer,  the timer keeps running if it was started"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/Timer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/Timer"]
 layout_mode = 2
 size_flags_vertical = 10
 
-[node name="Cancel" type="Button" parent="MainMenu/Timer/VBoxContainer/HBoxContainer"]
+[node name="Cancel" type="Button" parent="MainMenu/MarginContainer/Timer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="Save" type="Button" parent="MainMenu/Timer/VBoxContainer/HBoxContainer"]
+[node name="Save" type="Button" parent="MainMenu/MarginContainer/Timer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Save"
@@ -491,6 +471,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 mouse_default_cursor_shape = 6
+theme = ExtResource("4_ubex6")
 script = ExtResource("6_oxpp8")
 
 [node name="scroll" type="ScrollContainer" parent="QuestionPanel"]
@@ -505,18 +486,26 @@ horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 script = ExtResource("12_uqs1p")
 
-[node name="QuestionMessage" type="Label" parent="QuestionPanel/scroll"]
+[node name="MarginContainer" type="MarginContainer" parent="QuestionPanel/scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="QuestionMessage" type="Label" parent="QuestionPanel/scroll/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 mouse_default_cursor_shape = 6
-theme_override_constants/outline_size = 0
-theme_override_font_sizes/font_size = 18
+text = "Test Text Message"
+vertical_alignment = 2
 autowrap_mode = 3
-visible_characters = 0
-visible_ratio = 0.0
+visible_ratio = -0.0588235
 
 [node name="OffscreenTarget" type="Marker2D" parent="."]
 unique_name_in_owner = true
@@ -528,25 +517,25 @@ script = ExtResource("10_vnfb5")
 [connection signal="timeout" from="UpdateTimer" to="." method="_on_timer_timeout"]
 [connection signal="gui_input" from="QueueSizeContainer" to="QueueSizeContainer" method="_on_gui_input"]
 [connection signal="gui_input" from="QueueSizeContainer/QueueSize" to="QueueSizeContainer/QueueSize" method="_on_gui_input"]
-[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Resume" to="MainMenu" method="_on_resume_pressed"]
-[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Settings" to="MainMenu" method="_on_settings_pressed"]
-[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Timer" to="MainMenu" method="_on_timer_pressed"]
-[connection signal="pressed" from="MainMenu/Default/VBoxContainer/Quit" to="MainMenu" method="_on_quit_pressed"]
-[connection signal="focus_exited" from="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer/port" to="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer/port" method="_on_focus_exited"]
-[connection signal="text_changed" from="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer/port" to="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer/web_socket_url" method="_on_port_text_changed"]
-[connection signal="ws_port_changed" from="MainMenu/Settings/VBoxContainer/TabContainer/WebSocket/GridContainer/port" to="WebsocketServer" method="_on_port_ws_port_changed"]
-[connection signal="text_changed" from="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer/ui_question_width" to="QuestionPanel" method="_on_message_width_text_submitted"]
-[connection signal="text_changed" from="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer/ui_question_height" to="QuestionPanel" method="_on_message_height_text_submitted"]
-[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/TabContainer/Messages/GridContainer/ShowPanel" to="QuestionPanel" method="_on_show_panel_pressed"]
-[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/TabContainer/Cache/ClearCache" to="." method="_on_clear_cache_pressed"]
-[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
-[connection signal="pressed" from="MainMenu/Settings/VBoxContainer/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
-[connection signal="text_changed" from="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/TimerTitle" to="CountdownTimer" method="_update_title"]
-[connection signal="value_changed" from="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/Hours" to="MainMenu" method="_on_hours_value_changed"]
-[connection signal="value_changed" from="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/Minutes" to="MainMenu" method="_on_minutes_value_changed"]
-[connection signal="value_changed" from="MainMenu/Timer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/VolumeSlider" to="MainMenu" method="_on_volume_slider_value_changed"]
-[connection signal="pressed" from="MainMenu/Timer/VBoxContainer/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
-[connection signal="pressed" from="MainMenu/Timer/VBoxContainer/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Default/VBoxContainer/Resume" to="MainMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Default/VBoxContainer/Settings" to="MainMenu" method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Default/VBoxContainer/Timer" to="MainMenu" method="_on_timer_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Default/VBoxContainer/Quit" to="MainMenu" method="_on_quit_pressed"]
+[connection signal="focus_exited" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" method="_on_focus_exited"]
+[connection signal="text_changed" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/web_socket_url" method="_on_port_text_changed"]
+[connection signal="ws_port_changed" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="WebsocketServer" method="_on_port_ws_port_changed"]
+[connection signal="text_changed" from="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer/ui_question_width" to="QuestionPanel" method="_on_message_width_text_submitted"]
+[connection signal="text_changed" from="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer/ui_question_height" to="QuestionPanel" method="_on_message_height_text_submitted"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer/ShowPanel" to="QuestionPanel" method="_on_show_panel_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Settings/TabContainer/Cache/ClearCache" to="." method="_on_clear_cache_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Settings/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Settings/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
+[connection signal="text_changed" from="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/TimerTitle" to="CountdownTimer" method="_update_title"]
+[connection signal="value_changed" from="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/Hours" to="MainMenu" method="_on_hours_value_changed"]
+[connection signal="value_changed" from="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/Minutes" to="MainMenu" method="_on_minutes_value_changed"]
+[connection signal="value_changed" from="MainMenu/MarginContainer/Timer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/VolumeSlider" to="MainMenu" method="_on_volume_slider_value_changed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Timer/HBoxContainer/Cancel" to="MainMenu" method="_show_menu"]
+[connection signal="pressed" from="MainMenu/MarginContainer/Timer/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
 [connection signal="gui_input" from="QuestionPanel" to="QuestionPanel" method="_on_gui_input"]
 [connection signal="panel_hidden" from="QuestionPanel" to="." method="_on_question_panel_hidden"]
 [connection signal="next" from="WebsocketServer" to="." method="_on_play_question_clicked"]

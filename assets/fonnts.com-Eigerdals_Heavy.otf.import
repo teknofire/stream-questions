@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b45cxe2b3o730"
-path="res://.godot/imported/ProtestRiot-Regular.ttf-ef8985021966778dc67a7c29e3810ed7.fontdata"
+uid="uid://i2q0f2n12ja8"
+path="res://.godot/imported/fonnts.com-Eigerdals_Heavy.otf-304cf46f926623a589ac8a2eafc9a1b0.fontdata"
 
 [deps]
 
-source_file="res://themes/ProtestRiot-Regular.ttf"
-dest_files=["res://.godot/imported/ProtestRiot-Regular.ttf-ef8985021966778dc67a7c29e3810ed7.fontdata"]
+source_file="res://assets/fonnts.com-Eigerdals_Heavy.otf"
+dest_files=["res://.godot/imported/fonnts.com-Eigerdals_Heavy.otf-304cf46f926623a589ac8a2eafc9a1b0.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
