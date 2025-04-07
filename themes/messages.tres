@@ -9,7 +9,7 @@
 [resource]
 default_font = ExtResource("1_1yrl4")
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/constants/outline_size = 20
+Label/constants/outline_size = 25
 Label/font_sizes/font_size = 25
 Label/fonts/font = ExtResource("1_1yrl4")
 Panel/styles/panel = SubResource("StyleBoxEmpty_ob8ej")

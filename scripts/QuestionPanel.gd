@@ -40,6 +40,7 @@ func animate_in(_play_audio, message_length, duration):
 	var tween = get_tree().create_tween()
 	tween.tween_callback(_play_audio)
 	tween.tween_property(%QuestionMessage, "visible_characters", message_length, duration).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_interval(2.5)
 	tween.tween_callback(hide_panel)
 	
 func hide_panel():

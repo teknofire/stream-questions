@@ -505,7 +505,8 @@ mouse_default_cursor_shape = 6
 text = "Test Text Message"
 vertical_alignment = 2
 autowrap_mode = 3
-visible_ratio = -0.0588235
+visible_characters = 0
+visible_ratio = 0.0
 
 [node name="OffscreenTarget" type="Marker2D" parent="."]
 unique_name_in_owner = true
