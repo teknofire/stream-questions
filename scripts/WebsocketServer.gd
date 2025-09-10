@@ -5,8 +5,6 @@ var port := 9000
 var tcp_server := TCPServer.new()
 var socket := WebSocketPeer.new()
 
-signal next
-signal replay
 signal clear_cache
 signal timer(command: String)
 signal question(command: String)
@@ -29,14 +27,18 @@ func _handle_button_press(id, event):
 	if event == "keyUp":
 		print("Recieved %s with %s" % [event, id])
 		match id.to_lower():
-			"next":
-				next.emit()
-			"replay":
-				replay.emit()
+			"next":  # backwards compat
+				question.emit("next")
+			"replay":  # backwards compat
+				question.emit("next")
 			"questions.next":
 				question.emit("next")
 			"questions.replay":
 				question.emit("replay")	
+			"questions.print":
+				question.emit("print")	
+			"questions.print_prev":
+				question.emit("print_prev")
 			"clear_cache":
 				clear_cache.emit()
 			"timer.start":

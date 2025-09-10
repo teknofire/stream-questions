@@ -39,18 +39,6 @@ func update_queue_count():
 	print("update queue count")
 	QuestionApi.fetch_stats()	
 
-
-func _on_play_question_clicked():
-	if !playing_question:
-		QuestionApi.current_question(_on_question_fetched, _on_question_failed)
-
-
-func _on_replay_question_clicked():
-	if !playing_question:
-		playing_replay = true
-		QuestionApi.replay_question(_on_question_fetched, _on_question_failed)
-
-
 func _on_question_failed():
 	playing_replay = false
 	if !$AudioStreamPlayer2D.is_playing():
@@ -114,7 +102,7 @@ func _on_websocket_server_timer(command: String) -> void:
 			else:
 				%CountdownTimer.show_with_zoom()
 
-func _on_question_available(question, audiofile):
+func _print_on_question_available(question, audiofile):
 	playing_question = true
 	var port = Global.config.get_value("printer", "port").to_int()
 	var ok := await Printer.open(Global.config.get_value("printer", "ip"), port)
@@ -136,11 +124,16 @@ func _on_question_available(question, audiofile):
 
 func _on_websocket_server_question(command: String) -> void:
 	print_debug("Got question event: %s" %[command])
-	match command:
-		"next":
-			if !playing_question:
-				QuestionApi.current_question(_on_question_available, _on_question_failed)
-		"replay":
-			if !playing_question:
+	if !playing_question:
+		match command:
+			"next":
+				QuestionApi.current_question(_on_question_fetched, _on_question_failed)
+			"replay":
 				playing_replay = true
-				QuestionApi.replay_question(_on_question_available, _on_question_failed)
+				QuestionApi.replay_question(_on_question_fetched, _on_question_failed)
+			"print":
+				QuestionApi.current_question(_print_on_question_available, _on_question_failed)
+			"print_previous":
+				playing_replay = true
+				QuestionApi.replay_question(_print_on_question_available, _on_question_failed)
+				

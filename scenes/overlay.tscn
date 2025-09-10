@@ -587,7 +587,5 @@ script = ExtResource("10_vnfb5")
 [connection signal="pressed" from="MainMenu/MarginContainer/Timer/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
 [connection signal="gui_input" from="QuestionPanel" to="QuestionPanel" method="_on_gui_input"]
 [connection signal="panel_hidden" from="QuestionPanel" to="." method="_on_question_panel_hidden"]
-[connection signal="next" from="WebsocketServer" to="." method="_on_play_question_clicked"]
 [connection signal="question" from="WebsocketServer" to="." method="_on_websocket_server_question"]
-[connection signal="replay" from="WebsocketServer" to="." method="_on_replay_question_clicked"]
 [connection signal="timer" from="WebsocketServer" to="." method="_on_websocket_server_timer"]
