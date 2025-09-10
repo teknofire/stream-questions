@@ -9,6 +9,7 @@ signal next
 signal replay
 signal clear_cache
 signal timer(command: String)
+signal question(command: String)
 
 func _ready():
 	start_ws()
@@ -32,6 +33,10 @@ func _handle_button_press(id, event):
 				next.emit()
 			"replay":
 				replay.emit()
+			"questions.next":
+				question.emit("next")
+			"questions.replay":
+				question.emit("replay")	
 			"clear_cache":
 				clear_cache.emit()
 			"timer.start":

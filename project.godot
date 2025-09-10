@@ -14,7 +14,7 @@ config/name="StreamQuestions"
 config/version="1.0"
 run/main_scene="res://scenes/overlay.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-boot_splash/bg_color=Color(0.156863, 0.192157, 0.227451, 1)
+boot_splash/bg_color=Color(0.254902, 0.301961, 0.352941, 1)
 boot_splash/fullsize=false
 boot_splash/image="res://assets/teknofire-transparent-1280x720.png"
 config/icon="res://icon.svg"
@@ -23,6 +23,8 @@ config/icon="res://icon.svg"
 
 QuestionApi="*res://scripts/question_api.gd"
 Global="*res://scripts/global.gd"
+Twitch="*res://addons/twitcher/twitch_service.tscn"
+Printer="*res://scripts/printer.gd"
 
 [display]
 
@@ -35,7 +37,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/HTTPManager/plugin.cfg")
+enabled=PackedStringArray("res://addons/HTTPManager/plugin.cfg", "res://addons/twitcher/plugin.cfg")
 
 [input]
 
@@ -60,3 +62,9 @@ next_question={
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 viewport/transparent_background=true
+
+[twitcher]
+
+editor/game_oauth_token="res://addons/twitcher/default_oauth_token.tres"
+editor/game_oauth_setting="res://addons/twitcher/twitch_oauth_setting.tres"
+editor/project_preset=&"Overlay"

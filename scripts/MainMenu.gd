@@ -29,32 +29,45 @@ func switch_panel(panel: Control):
 	panel.show()
 
 func _on_settings_pressed():
-	for item in Global.api_settings:
-		_set_input_value("%api_"+item, Global.config.get_value("api", item))
+	_set_input_value(%api_enabled, Global.config.get_value("api", "enabled", false))
+	_set_input_value(%api_url, Global.config.get_value("api", "url", "https://questions.teknofire.net"))
+	_set_input_value(%api_key, Global.config.get_value("api", "key", ""))
+
+	for item in Global.printer_settings:
+		_set_input_value("%printer_"+item, Global.config.get_value("printer", item))
 		
 	var panel_size = Global.config.get_value("ui", "QuestionPanel_size", Vector2(600, 100))
-	_set_input_value("%ui_question_width", panel_size.x)	
-	_set_input_value("%ui_question_height", panel_size.y)	
+	_set_input_value(%ui_question_width, panel_size.x)	
+	_set_input_value(%ui_question_height, panel_size.y)	
 	
 	switch_panel(%Settings)
-
 
 func _on_save_pressed():
 	for item in Global.api_settings:
 		Global.config.set_value("api", item, _get_input_value("%api_"+item))
-
+	for item in Global.printer_settings:
+		Global.config.set_value("printer", item, _get_input_value("%printer_"+item))	
+		
 	Global.config.set_value("ui", "QuestionPanel_size", %QuestionPanel.size)
 	
 	Global.config.set_value("timer", "title", %CountdownTimer.title)
 	Global.config.set_value("timer", "volume_db", %CountdownTimer.get_volume())
 	Global.config.set_value("timer", "total_duration", %CountdownTimer.total_duration)
+		
 	Global.save_settings()
 	
 	_show_menu()
 
 func _set_input_value(input, value):
-	var field = get_node(input)
+	var field 
+	if typeof(input) == TYPE_OBJECT:
+		field = input
+	else:	
+		field = get_node(input)
 	
+	if value == null:
+		value = ""	
+			
 	match field.get_class():
 		"LineEdit":
 			field.text = "%s" % value
@@ -66,8 +79,11 @@ func _set_input_value(input, value):
 			field.value = value
 
 func _get_input_value(input):
-	var node_name = input
-	var field = get_node(node_name)
+	var field 
+	if typeof(input) == TYPE_OBJECT:
+		field = input
+	else:	
+		field = get_node(input)
 	
 	if !field:
 		return

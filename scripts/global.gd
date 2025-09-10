@@ -3,6 +3,7 @@ extends Node
 var config: ConfigFile = ConfigFile.new()
 var config_file = "user://questions.cfg"
 var api_settings = ["enabled", "url", "key"]
+var printer_settings = ["ip", "port", "header", "subheader"]
 var ws_settings = ["port"]
 
 signal dragging
