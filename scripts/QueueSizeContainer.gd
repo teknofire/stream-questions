@@ -4,7 +4,7 @@ var drag = false
 var offset = Vector2.ZERO
 
 func _ready():
-	var pos = Global.config.get_value("ui", name)
+	var pos = Global.config.get_value("ui", name, Vector2(0, 0))
 	if pos:
 		global_position = pos
 

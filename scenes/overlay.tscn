@@ -173,10 +173,9 @@ size_flags_vertical = 3
 theme = ExtResource("8_ddbyb")
 theme_override_constants/outline_size = 0
 theme_override_constants/side_margin = 0
-current_tab = 1
+current_tab = 0
 
 [node name="API" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -226,6 +225,7 @@ size_flags_horizontal = 3
 secret = true
 
 [node name="WebSocket" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
+visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 metadata/_tab_index = 1
@@ -317,6 +317,54 @@ metadata/_tab_index = 3
 layout_mode = 2
 theme_override_constants/outline_size = 0
 text = "Clear Audio Cache"
+
+[node name="Printer" type="MarginContainer" parent="MainMenu/MarginContainer/Settings/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="PrinterGrid" type="GridContainer" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+layout_mode = 2
+text = "IP Address"
+horizontal_alignment = 2
+
+[node name="printer_ip" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "192.168.1.87"
+
+[node name="Label2" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+layout_mode = 2
+text = "Port"
+horizontal_alignment = 2
+
+[node name="printer_port" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "9100"
+placeholder_text = "9100"
+
+[node name="Label3" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+layout_mode = 2
+text = "Receipt Header"
+horizontal_alignment = 2
+
+[node name="printer_header" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+layout_mode = 2
+text = "Receipt Subheader"
+
+[node name="printer_subheader" type="LineEdit" parent="MainMenu/MarginContainer/Settings/TabContainer/Printer/PrinterGrid"]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/Settings"]
 layout_mode = 2
@@ -540,5 +588,6 @@ script = ExtResource("10_vnfb5")
 [connection signal="gui_input" from="QuestionPanel" to="QuestionPanel" method="_on_gui_input"]
 [connection signal="panel_hidden" from="QuestionPanel" to="." method="_on_question_panel_hidden"]
 [connection signal="next" from="WebsocketServer" to="." method="_on_play_question_clicked"]
+[connection signal="question" from="WebsocketServer" to="." method="_on_websocket_server_question"]
 [connection signal="replay" from="WebsocketServer" to="." method="_on_replay_question_clicked"]
 [connection signal="timer" from="WebsocketServer" to="." method="_on_websocket_server_timer"]

@@ -15,7 +15,21 @@ func _ready():
 	
 	%UpdateTimer.start()
 	update_queue_count()
+	
+	
+	#var setup_successful: bool = await Twitch.setup()
+	#if setup_successful:
+		#print("Twitch Service successfully set up and authenticated!")
+		#await get_self_info()
+	#else:
+		#printerr("Twitch Service setup Failed")
 
+#func get_self_info():
+	#var current_user: TwitchUser = await Twitch.get_current_user()
+	#if current_user:
+		#print("Authenticated as: %s (ID: %s)" %[current_user.display_name, current_user.id])
+	#else:
+		#printerr("Count not get current user info")
 
 func show_message(message: String):
 	%Message.text = message
@@ -99,3 +113,34 @@ func _on_websocket_server_timer(command: String) -> void:
 				%CountdownTimer.hide_with_zoom()
 			else:
 				%CountdownTimer.show_with_zoom()
+
+func _on_question_available(question, audiofile):
+	playing_question = true
+	var port = Global.config.get_value("printer", "port").to_int()
+	var ok := await Printer.open(Global.config.get_value("printer", "ip"), port)
+	if not ok:
+		push_error("Could not connect to printer")
+		return 
+	
+	Printer.print_receipt(
+		Global.config.get_value("printer", "header"), 
+		Global.config.get_value("printer", "subheader"), 
+		question
+	)
+	
+	Printer.close()
+	if !playing_replay:
+		QuestionApi.next_question()
+	playing_question = false
+	playing_replay = false
+
+func _on_websocket_server_question(command: String) -> void:
+	print_debug("Got question event: %s" %[command])
+	match command:
+		"next":
+			if !playing_question:
+				QuestionApi.current_question(_on_question_available, _on_question_failed)
+		"replay":
+			if !playing_question:
+				playing_replay = true
+				QuestionApi.replay_question(_on_question_available, _on_question_failed)
