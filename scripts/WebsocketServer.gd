@@ -1,93 +1,173 @@
 extends Node
 
-# The port we will listen to.
-var port := 9000
+class_name WebSocketServer
+
+signal message_received(peer_id: int, message: String)
+signal client_connected(peer_id: int)
+signal client_disconnected(peer_id: int)
+
+@export var handshake_headers := PackedStringArray()
+@export var supported_protocols := PackedStringArray()
+@export var handshake_timout := 3000
+@export var use_tls := false
+@export var tls_cert: X509Certificate
+@export var tls_key: CryptoKey
+@export var refuse_new_connections := false:
+	set(refuse):
+		if refuse:
+			pending_peers.clear()
+
+class PendingPeer:
+	var connect_time: int
+	var tcp: StreamPeerTCP
+	var connection: StreamPeer
+	var ws: WebSocketPeer
+
+	func _init(p_tcp: StreamPeerTCP) -> void:
+		tcp = p_tcp
+		connection = p_tcp
+		connect_time = Time.get_ticks_msec()
+
+
 var tcp_server := TCPServer.new()
-var socket := WebSocketPeer.new()
-
-signal clear_cache
-signal timer(command: String)
-signal question(command: String)
-
-func _ready():
-	start_ws()
-
-func log_message(message):
-	var json = JSON.new()
-	var err = json.parse(message)
-	if err != OK:
-		push_error("Unable to decode message from websocket")
-	else:	
-		var data = json.data
-		if data.event == "keyUp":
-			_handle_button_press(data.payload.settings.id, data.event)
+var pending_peers: Array[PendingPeer] = []
+var peers: Dictionary
 
 
-func _handle_button_press(id, event):
-	if event == "keyUp":
-		print("Recieved %s with %s" % [event, id])
-		match id.to_lower():
-			"next":  # backwards compat
-				question.emit("next")
-			"replay":  # backwards compat
-				question.emit("next")
-			"questions.next":
-				question.emit("next")
-			"questions.replay":
-				question.emit("replay")	
-			"questions.print":
-				question.emit("print")	
-			"questions.print_prev":
-				question.emit("print_prev")
-			"clear_cache":
-				clear_cache.emit()
-			"timer.start":
-				timer.emit('start')
-			"timer.stop":
-				timer.emit('stop')
-			"timer.reset":
-				timer.emit('reset')
-			"timer.toggle":
-				timer.emit('toggle')
-			"timer.complete":
-				timer.emit('complete')
+func listen(port: int) -> int:
+	assert(not tcp_server.is_listening())
+	return tcp_server.listen(port)
 
 
-func _process(_delta):
-	while tcp_server.is_connection_available():
+func stop() -> void:
+	tcp_server.stop()
+	pending_peers.clear()
+	peers.clear()
+
+
+func send(peer_id: int, message: String) -> int:
+	var type := typeof(message)
+	if peer_id <= 0:
+		# Send to multiple peers, (zero = broadcast, negative = exclude one).
+		for id: int in peers:
+			if id == -peer_id:
+				continue
+			if type == TYPE_STRING:
+				peers[id].send_text(message)
+			else:
+				peers[id].put_packet(message)
+		return OK
+
+	assert(peers.has(peer_id))
+	var socket: WebSocketPeer = peers[peer_id]
+	if type == TYPE_STRING:
+		return socket.send_text(message)
+	return socket.send(var_to_bytes(message))
+
+
+func get_message(peer_id: int) -> Variant:
+	assert(peers.has(peer_id))
+	var socket: WebSocketPeer = peers[peer_id]
+	if socket.get_available_packet_count() < 1:
+		return null
+	var pkt: PackedByteArray = socket.get_packet()
+	if socket.was_string_packet():
+		return pkt.get_string_from_utf8()
+	return bytes_to_var(pkt)
+
+
+func has_message(peer_id: int) -> bool:
+	assert(peers.has(peer_id))
+	return peers[peer_id].get_available_packet_count() > 0
+
+
+func _create_peer() -> WebSocketPeer:
+	var ws := WebSocketPeer.new()
+	ws.supported_protocols = supported_protocols
+	ws.handshake_headers = handshake_headers
+	return ws
+
+
+func poll() -> void:
+	if not tcp_server.is_listening():
+		return
+
+	while not refuse_new_connections and tcp_server.is_connection_available():
 		var conn: StreamPeerTCP = tcp_server.take_connection()
 		assert(conn != null)
-		socket.accept_stream(conn)
+		pending_peers.append(PendingPeer.new(conn))
 
-	socket.poll()
+	var to_remove := []
 
-	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		while socket.get_available_packet_count():
-			log_message(socket.get_packet().get_string_from_ascii())
+	for p in pending_peers:
+		if not _connect_pending(p):
+			if p.connect_time + handshake_timout < Time.get_ticks_msec():
+				# Timeout.
+				to_remove.append(p)
+			continue  # Still pending.
+
+		to_remove.append(p)
+
+	for r: RefCounted in to_remove:
+		pending_peers.erase(r)
+
+	to_remove.clear()
+
+	for id: int in peers:
+		var p: WebSocketPeer = peers[id]
+		p.poll()
+
+		if p.get_ready_state() != WebSocketPeer.STATE_OPEN:
+			client_disconnected.emit(id)
+			to_remove.append(id)
+			continue
+
+		while p.get_available_packet_count():
+			message_received.emit(id, get_message(id))
+
+	for r: int in to_remove:
+		peers.erase(r)
+	to_remove.clear()
 
 
-func stop_ws():
-	socket.close()
-	tcp_server.stop()
+func _connect_pending(p: PendingPeer) -> bool:
+	if p.ws != null:
+		# Poll websocket client if doing handshake.
+		p.ws.poll()
+		var state := p.ws.get_ready_state()
+		if state == WebSocketPeer.STATE_OPEN:
+			var id := randi_range(2, 1 << 30)
+			peers[id] = p.ws
+			client_connected.emit(id)
+			return true  # Success.
+		elif state != WebSocketPeer.STATE_CONNECTING:
+			return true  # Failure.
+		return false  # Still connecting.
+	elif p.tcp.get_status() != StreamPeerTCP.STATUS_CONNECTED:
+		return true  # TCP disconnected.
+	elif not use_tls:
+		# TCP is ready, create WS peer.
+		p.ws = _create_peer()
+		p.ws.accept_stream(p.tcp)
+		return false  # WebSocketPeer connection is pending.
+
+	else:
+		if p.connection == p.tcp:
+			assert(tls_key != null and tls_cert != null)
+			var tls := StreamPeerTLS.new()
+			tls.accept_stream(p.tcp, TLSOptions.server(tls_key, tls_cert))
+			p.connection = tls
+		p.connection.poll()
+		var status: StreamPeerTLS.Status = p.connection.get_status()
+		if status == StreamPeerTLS.STATUS_CONNECTED:
+			p.ws = _create_peer()
+			p.ws.accept_stream(p.connection)
+			return false  # WebSocketPeer connection is pending.
+		if status != StreamPeerTLS.STATUS_HANDSHAKING:
+			return true  # Failure.
+
+		return false
 
 
-func start_ws():	
-	port = int(Global.config.get_value("ws", "port", 9000))
-	
-	if tcp_server.listen(port) != OK:
-		log_message("Unable to start server.")
-		set_process(false)
-
-
-func _exit_tree():
-	stop_ws()
-
-
-func _on_button_pong_pressed():
-	socket.send_text("Pong")
-
-
-func _on_port_ws_port_changed():
-	print("restarting ws server")
-	stop_ws()
-	start_ws()
+func _process(_delta: float) -> void:
+	poll()

@@ -16,6 +16,10 @@ func _ready():
 	%UpdateTimer.start()
 	update_queue_count()
 	
+	var ws_port: int
+	ws_port = int(Global.config.get_value('ws', 'port'))
+	if ws_port > 0:
+		%WebsocketServer.listen(ws_port)
 	
 	#var setup_successful: bool = await Twitch.setup()
 	#if setup_successful:
@@ -137,3 +141,53 @@ func _on_websocket_server_question(command: String) -> void:
 				playing_replay = true
 				QuestionApi.replay_question(_print_on_question_available, _on_question_failed)
 				
+
+
+func _on_websocket_server_client_connected(peer_id: int) -> void:
+	print("Client Connected: %d" % [peer_id])
+
+
+func _on_websocket_server_client_disconnected(peer_id: int) -> void:
+	print("Client Disconnected: %d" % [peer_id])
+
+
+signal clear_cache
+signal timer(command: String)
+signal question(command: String)
+
+func _handle_event(event, action):
+	if event == "keyUp":
+		print("Recieved %s with %s" % [event, action])
+		
+	match action.to_lower():
+		"next":  # backwards compat
+			question.emit("next")
+		"replay":  # backwards compat
+			question.emit("next")
+		"questions.next":
+			question.emit("next")
+		"questions.replay":
+			question.emit("replay")	
+		"questions.print":
+			question.emit("print")	
+		"questions.print_prev":
+			question.emit("print_prev")
+		"clear_cache":
+			clear_cache.emit()
+		"timer.start":
+			timer.emit('start')
+		"timer.stop":
+			timer.emit('stop')
+		"timer.reset":
+			timer.emit('reset')
+		"timer.toggle":
+			timer.emit('toggle')
+		"timer.complete":
+			timer.emit('complete')	
+
+func _on_websocket_server_message_received(peer_id: int, message: String) -> void:
+	print_debug(message)
+	
+	var json = JSON.parse_string(message)
+	_handle_event(json["event"], json["payload"]["settings"]["id"])
+	

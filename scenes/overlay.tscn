@@ -561,8 +561,11 @@ unique_name_in_owner = true
 position = Vector2(344, 790)
 
 [node name="WebsocketServer" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("10_vnfb5")
 
+[connection signal="question" from="." to="." method="_on_websocket_server_question"]
+[connection signal="timer" from="." to="." method="_on_websocket_server_timer"]
 [connection signal="timeout" from="UpdateTimer" to="." method="_on_timer_timeout"]
 [connection signal="gui_input" from="QueueSizeContainer" to="QueueSizeContainer" method="_on_gui_input"]
 [connection signal="gui_input" from="QueueSizeContainer/QueueSize" to="QueueSizeContainer/QueueSize" method="_on_gui_input"]
@@ -587,5 +590,6 @@ script = ExtResource("10_vnfb5")
 [connection signal="pressed" from="MainMenu/MarginContainer/Timer/HBoxContainer/Save" to="MainMenu" method="_on_save_pressed"]
 [connection signal="gui_input" from="QuestionPanel" to="QuestionPanel" method="_on_gui_input"]
 [connection signal="panel_hidden" from="QuestionPanel" to="." method="_on_question_panel_hidden"]
-[connection signal="question" from="WebsocketServer" to="." method="_on_websocket_server_question"]
-[connection signal="timer" from="WebsocketServer" to="." method="_on_websocket_server_timer"]
+[connection signal="client_connected" from="WebsocketServer" to="." method="_on_websocket_server_client_connected"]
+[connection signal="client_disconnected" from="WebsocketServer" to="." method="_on_websocket_server_client_disconnected"]
+[connection signal="message_received" from="WebsocketServer" to="." method="_on_websocket_server_message_received"]
