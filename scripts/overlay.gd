@@ -16,10 +16,7 @@ func _ready():
 	%UpdateTimer.start()
 	update_queue_count()
 	
-	var ws_port: int
-	ws_port = int(Global.config.get_value('ws', 'port'))
-	if ws_port > 0:
-		%WebsocketServer.listen(ws_port)
+	start_ws()
 	
 	#var setup_successful: bool = await Twitch.setup()
 	#if setup_successful:
@@ -27,6 +24,14 @@ func _ready():
 		#await get_self_info()
 	#else:
 		#printerr("Twitch Service setup Failed")
+
+func stop_ws():
+	%WebsocketServer.stop()
+	
+func start_ws():
+	var ws_port = int(Global.config.get_value('ws', 'port'))
+	if ws_port > 0:
+		%WebsocketServer.listen(ws_port)	
 
 #func get_self_info():
 	#var current_user: TwitchUser = await Twitch.get_current_user()
@@ -191,3 +196,6 @@ func _on_websocket_server_message_received(peer_id: int, message: String) -> voi
 	var json = JSON.parse_string(message)
 	_handle_event(json["event"], json["payload"]["settings"]["id"])
 	
+func _on_port_ws_port_changed() -> void:
+	stop_ws()
+	start_ws()

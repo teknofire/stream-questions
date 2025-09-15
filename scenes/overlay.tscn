@@ -575,7 +575,7 @@ script = ExtResource("10_vnfb5")
 [connection signal="pressed" from="MainMenu/MarginContainer/Default/VBoxContainer/Quit" to="MainMenu" method="_on_quit_pressed"]
 [connection signal="focus_exited" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" method="_on_focus_exited"]
 [connection signal="text_changed" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/web_socket_url" method="_on_port_text_changed"]
-[connection signal="ws_port_changed" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="WebsocketServer" method="_on_port_ws_port_changed"]
+[connection signal="ws_port_changed" from="MainMenu/MarginContainer/Settings/TabContainer/WebSocket/GridContainer/port" to="." method="_on_port_ws_port_changed"]
 [connection signal="text_changed" from="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer/ui_question_width" to="QuestionPanel" method="_on_message_width_text_submitted"]
 [connection signal="text_changed" from="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer/ui_question_height" to="QuestionPanel" method="_on_message_height_text_submitted"]
 [connection signal="pressed" from="MainMenu/MarginContainer/Settings/TabContainer/Messages/GridContainer/ShowPanel" to="QuestionPanel" method="_on_show_panel_pressed"]
