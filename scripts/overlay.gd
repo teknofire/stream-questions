@@ -135,6 +135,8 @@ func _on_websocket_server_question(command: String) -> void:
 	print_debug("Got question event: %s" %[command])
 	if !playing_question:
 		match command:
+			"clear_cache":
+				QuestionApi.clear_cache()
 			"next":
 				QuestionApi.current_question(_on_question_fetched, _on_question_failed)
 			"replay":
@@ -145,7 +147,6 @@ func _on_websocket_server_question(command: String) -> void:
 			"print_previous":
 				playing_replay = true
 				QuestionApi.replay_question(_print_on_question_available, _on_question_failed)
-				
 
 
 func _on_websocket_server_client_connected(peer_id: int) -> void:
@@ -155,8 +156,6 @@ func _on_websocket_server_client_connected(peer_id: int) -> void:
 func _on_websocket_server_client_disconnected(peer_id: int) -> void:
 	print("Client Disconnected: %d" % [peer_id])
 
-
-signal clear_cache
 signal timer(command: String)
 signal question(command: String)
 
@@ -177,8 +176,10 @@ func _handle_event(event, action):
 			question.emit("print")	
 		"questions.print_prev":
 			question.emit("print_prev")
+		"questions.clear_cache":
+			question.emit("clear_cache")
 		"clear_cache":
-			clear_cache.emit()
+			question.emit("clear_cache")
 		"timer.start":
 			timer.emit('start')
 		"timer.stop":

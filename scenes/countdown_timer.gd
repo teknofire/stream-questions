@@ -118,3 +118,6 @@ func set_duration(hours:int, minutes: int) -> void:
 	total_duration = (hours * 3600) + (minutes * 60)
 	if !active:
 		duration_left = total_duration
+
+func _on_main_menu_timer_volume(volume) -> void:
+	set_volume(volume)
